@@ -90,9 +90,9 @@ class Hello(object):
      <!DOCTYPE html> 
      <html>
     <head>
-    <h1>期末考練習1<br />
-    <br />40223248<br />
-    <br />賴仁華<br />
+    <h1>期末考練習2<br />
+    <br />40223248  40223237<br />
+    <br />賴仁華  黃炯綸<br />
 
 
     <a href="drawspur2">期末2nd協同齒輪嚙合</a>  <br /></h1>
@@ -857,7 +857,10 @@ class Hello(object):
     n_g1 = '''+str(N1)+'''
     # 第2齒輪齒數
     n_g2='''+str(N2)+'''
-
+    # 第3齒輪齒數
+    n_g3 = '''+str(N1)+'''
+    # 第4齒輪齒數
+    n_g4='''+str(N2)+'''
 
     # M 為模數
     m = 10
@@ -867,8 +870,8 @@ class Hello(object):
     # 計算兩齒輪的節圓半徑
     rp_g1 = m*n_g1/2
     rp_g2 = m*n_g2/2
-
-
+    rp_g3 = m*n_g3/2
+    rp_g4 = m*n_g4/2
 
     # 繪圖第1齒輪的圓心座標
     x_g1 = 400
@@ -876,11 +879,18 @@ class Hello(object):
     # 第2齒輪的圓心座標, 假設排列成水平, 表示各齒輪圓心 y 座標相同
     x_g2 = x_g1 
     y_g2 = y_g1 + rp_g1 + rp_g2
+    # 第3齒輪的圓心座標
+    x_g3 = x_g2 + rp_g2+ rp_g3
+    y_g3 = y_g2
+    # 第4齒輪的圓心座標
+    x_g4 = x_g3 
+    y_g4 = y_g3+ rp_g3+ rp_g4
 
 
     tran1 = pi
     tran2 = -pi/n_g2
-
+    tran3 = -pi/2-pi/n_g3+(pi/2+pi/n_g2)*n_g2/n_g3
+    tran4 = -pi/n_g4+(-pi/2+pi/n_g3)*n_g3/n_g4-(pi/2+pi/n_g2)*n_g2/n_g4
 
     # 將第1齒輪順時鐘轉 180 度
     # 使用 ctx.save() 與 ctx.restore() 以確保各齒輪以相對座標進行旋轉繪圖
@@ -895,6 +905,7 @@ class Hello(object):
     ctx.restore()
     ctx.font = "20px Verdana";
     ctx.fillText("賴仁華繪製",x_g1, y_g1);
+
     # 將第2齒輪逆時鐘多轉一齒, 以便與第1齒輪進行囓合
     ctx.save()
     # translate to the origin of second gear
@@ -907,6 +918,31 @@ class Hello(object):
     ctx.restore()
     ctx.font = "20px Verdana";
     ctx.fillText("賴仁華繪製",x_g2, y_g2);
+
+    # 將第3齒輪
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g3, y_g3)
+    # rotate to engage
+    ctx.rotate(tran3)
+    # put it back
+    ctx.translate(-x_g3, -y_g3)
+    spur.Spur(ctx).Gear(x_g3, y_g3, rp_g3, n_g3, pa, "blue")
+    ctx.restore()
+    ctx.font = "20px Verdana";
+    ctx.fillText("黃炯綸繪製",x_g3, y_g3);
+    # 將第4齒輪
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g4, y_g4)
+    # rotate to engage
+    ctx.rotate(tran4)
+    # put it back
+    ctx.translate(-x_g4, -y_g4)
+    spur.Spur(ctx).Gear(x_g4, y_g4, rp_g4, n_g4, pa, "red")
+    ctx.restore()
+    ctx.font = "20px Verdana";
+    ctx.fillText("黃炯綸繪製",x_g4, y_g4);
     </script>
     <canvas id="plotarea" width="3500" height="3500"></canvas>
     <!-- 載入 brython.js -->
